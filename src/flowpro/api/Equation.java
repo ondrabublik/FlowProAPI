@@ -10,20 +10,20 @@ public interface Equation extends Serializable {
     public double[] constInitCondition();
     
     // convection term
-    public boolean convectionTerm();
-    public double[] flux(double[] W, double Vs, double[] n, ElementData elemData);
-    public double[] normalFlux(double WL[], double WR[], double Vs, double[] n, int TT, ElementData elemData);
+    public boolean isConvective();
+    public double[] convectiveFlux(double[] W, double Vs, double[] n, ElementData elemData);
+    public double[] numericalConvectiveFlux(double WL[], double WR[], double Vs, double[] n, int TT, ElementData elemData);
 
     // diffusion term (viscosity)
-    public boolean diffusionTerm();
-    public double[] normalViscousFlux(double WL[], double WR[], double dWL[], double dWR[], double n[], int TT, ElementData elemData);
-    public double[] viscousFlux(double[] W, double[] dW, double n[], ElementData elemData);
+    public boolean isDiffusive();
+    public double[] diffusiveFlux(double[] W, double[] dW, double n[], ElementData elemData);
+    public double[] numericalDiffusiveFlux(double WL[], double WR[], double dWL[], double dWR[], double n[], int TT, ElementData elemData);
 
     // source term
-    public boolean sourceTerm();
-    public double[] source(double[] W, double[] dW, ElementData elemData);
+    public boolean isSourcePresent();
+    public double[] sourceTerm(double[] W, double[] dW, ElementData elemData);
     
-    public double lambdaMax(double[] W);
+    public double maxEigenvalue(double[] W);
     
     public boolean isIPFace(int TT); // for penalty application
 
