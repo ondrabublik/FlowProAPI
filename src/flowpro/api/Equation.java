@@ -37,5 +37,5 @@ public interface Equation extends Serializable {
     
     public double[] getReferenceValues();
     
-    public double getResults(double[] W);
+    public double getResults(double[] W, String name);
 }
