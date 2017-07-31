@@ -75,6 +75,17 @@ public class FlowProProperties extends Properties {
             throw new IOException("variable " + propName + " does not contain a double", ex);
         }
     }
+    
+    public String[] getStringArray(String propName) throws IOException {
+        try {
+            String str = (loseComments(super.getProperty(propName)));
+            return str.split(",");
+        } catch (NullPointerException ex) {
+            throw new IOException("variable " + propName + " not found", ex);
+        } catch (NumberFormatException ex) {
+            throw new IOException("variable " + propName + " does not contain a double", ex);
+        }
+    }
 
     private double[] string2doubleArray(String str) {
         String[] stringArray = str.split(",");
