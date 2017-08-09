@@ -208,6 +208,30 @@ public class Mat {
         return out;
     }
 
+    public static double[][] plus(double[][] A, double b) {
+        int m = A.length;
+        int n = A[0].length;
+        double[][] C = new double[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] = A[i][j] + b;
+            }
+        }
+        return C;
+    }
+
+    public static int[][] plus(int[][] A, int b) {
+        int m = A.length;
+        int n = A[0].length;
+        int[][] C = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] = A[i][j] + b;
+            }
+        }
+        return C;
+    }
+
     /**
      * Subtracts two matrices of the same dimension.
      *
@@ -314,6 +338,16 @@ public class Mat {
             C[i] = v[i] * c;
         }
         return C;
+    }
+
+    public static void divide(double[][] A, double b) {
+        int ma = A.length;
+        int na = A[0].length;
+        for (int i = 0; i < ma; i++) {
+            for (int j = 0; j < na; j++) {
+                A[i][j] /= b;
+            }
+        }
     }
 
     public static double scalar(double[] a, double[] b) {
