@@ -12,12 +12,12 @@ public interface Equation extends Serializable {
     // convection term
     public boolean isConvective();
     public double[] convectiveFlux(double[] W, double Vs, double[] n, ElementData elemData);
-    public double[] numericalConvectiveFlux(double WL[], double WR[], double Vs, double[] n, int TT, ElementData elemData);
+    public double[] numericalConvectiveFlux(double[] WL, double[] WR, double Vs, double[] n, int TT, ElementData elemData);
 
     // diffusion term (viscosity)
     public boolean isDiffusive();
     public double[] diffusiveFlux(double[] W, double[] dW, double n[], ElementData elemData);
-    public double[] numericalDiffusiveFlux(double WL[], double WR[], double dWL[], double dWR[], double n[], int TT, ElementData elemData);
+    public double[] numericalDiffusiveFlux(double[] WL, double[] WR, double[] dWL, double[] dWR, double[] n, int TT, ElementData elemData);
 
     // source term
     public boolean isSourcePresent();
@@ -27,7 +27,7 @@ public interface Equation extends Serializable {
     
     public boolean isIPFace(int TT); // for penalty application
 
-    public double[] boundaryValue(double[] WL, double[] u, double n[], int TT, ElementData elemData);
+    public double[] boundaryValue(double[] WL, double[] u, double[] n, int TT, ElementData elemData);
 
     public double pressure(double[] W);
 
