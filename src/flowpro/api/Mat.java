@@ -952,6 +952,14 @@ public class Mat {
         }
     }
 
+    public static int[][] allocSameIntMatrix(int[][] A){
+        int[][] B = new int[A.length][];
+        for(int i = 0; i < A.length; i++){
+            B[i] = new int[A[i].length];
+        }
+        return B;
+    }
+    
     public static void quicksort(double[] a, int[] index, int left, int right) {
         if (right <= left) {
             return;
