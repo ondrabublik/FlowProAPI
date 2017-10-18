@@ -952,14 +952,14 @@ public class Mat {
         }
     }
 
-    public static int[][] allocSameIntMatrix(int[][] A){
+    public static int[][] allocSameIntMatrix(int[][] A) {
         int[][] B = new int[A.length][];
-        for(int i = 0; i < A.length; i++){
+        for (int i = 0; i < A.length; i++) {
             B[i] = new int[A[i].length];
         }
         return B;
     }
-    
+
     public static void quicksort(double[] a, int[] index, int left, int right) {
         if (right <= left) {
             return;
@@ -1002,5 +1002,33 @@ public class Mat {
         int b = index[i];
         index[i] = index[j];
         index[j] = b;
+    }
+
+    public static double[] cg(double[][] A, double[] b, double tol, int maxIter) {
+        int n = b.length;
+        double[] x = new double[n];
+        double[] r = minusVec(b, times(A, x));
+        double[] p = new double[n];
+        System.arraycopy(r, 0, p, 0, n);
+        double rr = scalar(r, r);
+        if (rr < tol) {
+            return x;
+        }
+        for (int op = 0; op < maxIter; op++) {
+            double[] Ap = times(A, p);
+            double alfa = rr / scalar(p, Ap);
+            x = plusVec(x, times(p, alfa));
+            r = minusVec(r, times(Ap, alfa));
+
+            double rrnew = scalar(r, r);
+            if (rrnew < tol) {
+                break;
+            }
+
+            double beta = rrnew / rr;
+            p = plusVec(r, times(p, beta));
+            rr = rrnew;
+        }
+        return x;
     }
 }

@@ -12,15 +12,13 @@ import java.io.Serializable;
  *
  * @author obublik
  */
-public interface Dynamics extends Serializable  {
+public interface Dynamics extends Serializable {
     
-    public void init(int nBodies, String simulationPath, String geometryPath, FlowProProperties par, Equation eqn) throws IOException;
+    public void init(int nBodies, String simulationPath, String geometryPath, Equation eqn) throws IOException;
     
     public void nextTimeLevel(double dt, double t, double[][] Force, double[][] Momentum);
     
-    public double[][] getMovement();
-    
-    public double[][] getAngleMovement();
+    public MeshMove[] getMeshMove();
     
     public double[][] getCenter();
     
