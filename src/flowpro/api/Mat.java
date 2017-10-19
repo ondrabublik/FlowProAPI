@@ -588,6 +588,36 @@ public class Mat {
         return x;
     }
 
+    public static double[][] copyMat(double[][] A){
+        int m = A.length;
+        int n = A[0].length;
+        double[][] B = new double[m][n];
+        for(int i = 0; i < m; i++){
+            System.arraycopy(A[i], 0, B[i], 0, n);
+        }
+        return B;
+    }
+    
+    public static int[][] copyMat(int[][] A){
+        int m = A.length;
+        int n = A[0].length;
+        int[][] B = new int[m][n];
+        for(int i = 0; i < m; i++){
+            System.arraycopy(A[i], 0, B[i], 0, n);
+        }
+        return B;
+    }
+    
+    public static void addMat(double[][] A, double[][] B){
+        int m = A.length;
+        int n = A[0].length;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                B[i][j] += A[i][j];
+            }
+        }
+    }
+    
     /**
      * Prints a vector on the screen.
      *
