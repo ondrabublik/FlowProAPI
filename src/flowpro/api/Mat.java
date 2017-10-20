@@ -588,36 +588,46 @@ public class Mat {
         return x;
     }
 
-    public static double[][] copyMat(double[][] A){
+    public static double[][] copyMat(double[][] A) {
         int m = A.length;
         int n = A[0].length;
         double[][] B = new double[m][n];
-        for(int i = 0; i < m; i++){
+        for (int i = 0; i < m; i++) {
             System.arraycopy(A[i], 0, B[i], 0, n);
         }
         return B;
     }
-    
-    public static int[][] copyMat(int[][] A){
+
+    public static int[][] copyMat(int[][] A) {
         int m = A.length;
         int n = A[0].length;
         int[][] B = new int[m][n];
-        for(int i = 0; i < m; i++){
+        for (int i = 0; i < m; i++) {
             System.arraycopy(A[i], 0, B[i], 0, n);
         }
         return B;
     }
-    
-    public static void addMat(double[][] A, double[][] B){
+
+    public static void addMat(int[][] A, int[][] B, int s) {
         int m = A.length;
         int n = A[0].length;
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                B[i][j] += A[i][j];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                B[i + s][j] += A[i][j];
             }
         }
     }
-    
+
+    public static void addMat(double[][] A, double[][] B, int s) {
+        int m = A.length;
+        int n = A[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                B[i + s][j] += A[i][j];
+            }
+        }
+    }
+
     /**
      * Prints a vector on the screen.
      *
@@ -1058,6 +1068,35 @@ public class Mat {
             double beta = rrnew / rr;
             p = plusVec(r, times(p, beta));
             rr = rrnew;
+        }
+        return x;
+    }
+
+    public static double[] jacobi(double[][] A, double[] b, double tol, int maxIter) {
+        int n = b.length;
+        double[] x = new double[n];
+        for (int op = 0; op < maxIter; op++) {
+            for (int i = 0; i < n; i++) {
+                double y = 0;
+                for (int j = 0; j < n; j++) {
+                    if (i != j) {
+                        y += A[i][j] * x[j];
+                    }
+                }
+                x[i] = (b[i] - y) / A[i][i];
+            }
+            if (L2Norm(x) < tol) {
+                break;
+            }
+        }
+        return x;
+    }
+    
+    public static double[] gmres(double[][] A, double[] b, double tol, int maxIter) {
+        int n = b.length;
+        double[] x = new double[n];
+        for (int op = 0; op < maxIter; op++) {
+            // dodelat !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
         return x;
     }

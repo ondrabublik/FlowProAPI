@@ -22,5 +22,5 @@ public interface Dynamics extends Serializable {
     
     public double[][] getCenter();
     
-    public void savePositionsAndForces(double[][] userDef);
+    public void savePositionsAndForces();
 }

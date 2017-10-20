@@ -3,11 +3,10 @@ package flowpro.api;
 import java.io.Serializable;
 
 public class FluidForces implements Serializable {
-    public boolean isEmpty;
     public double[][] totalTranslationForce;
     public double[][] totalRotationForce;
-    public double[][] boundaryForce;
-    public int[][] faceIndexes;
+    public double[][] boundaryForce; // nBoundFaces x dim
+    public int[][] faceIndexes; // element index, face index, body number
     public double[][] userDef;
     
     public FluidForces(double[][] totalTranslationForce, double[][] totalRotationForce, double[][] boundaryForce, int[][] faceIndexes, double[][] userDef){
@@ -16,10 +15,6 @@ public class FluidForces implements Serializable {
         this.boundaryForce = boundaryForce;
         this.faceIndexes = faceIndexes;
         this.userDef = userDef;
-    }
-    
-    public FluidForces(){
-        isEmpty = true;
     }
     
     public double[][] getTranslationForce() {
