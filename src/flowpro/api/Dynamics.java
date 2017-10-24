@@ -16,7 +16,9 @@ public interface Dynamics extends Serializable {
     
     public void init(int nBodies, String simulationPath, String geometryPath, Equation eqn) throws IOException;
     
-    public void nextTimeLevel(double dt, double t, FluidForces fluFor);
+    public void computeBodyMove(double dt, double t, FluidForces fluFor);
+    
+    public void nextTimeLevel();
     
     public MeshMove[] getMeshMove();
     

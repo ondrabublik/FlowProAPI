@@ -1091,12 +1091,183 @@ public class Mat {
         }
         return x;
     }
-    
-    public static double[] gmres(double[][] A, double[] b, double tol, int maxIter) {
+
+    public static double[] gmres(double[][] A, double[] b, int m, double tol, int maxIter) {
+
         int n = b.length;
         double[] x = new double[n];
-        for (int op = 0; op < maxIter; op++) {
-            // dodelat !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        // initialize workspace
+        double[][] V = new double[m + 1][n];
+        double[][] H = new double[m + 1][m];
+        double[] cs = new double[m];
+        double[] sn = new double[m];
+        double[] e1 = new double[m + 1];
+        double[] w = new double[n];
+        double[] r = new double[n];
+
+        double norm_r, temp;
+        double[] s, y;
+
+        double bnorm = L2Norm(b);
+
+        if (bnorm == 0) {
+            bnorm = 1;
+        }
+
+        residuum(r, A, b, x, 1);
+        double error = L2Norm(r) / bnorm;
+        if (error < tol) {
+            return x;
+        }
+        e1[0] = 1;
+
+        for (int iter = 0; iter < maxIter; iter++) {          // begin iteration
+            residuum(r, A, b, x, 1);
+            norm_r = L2Norm(r);
+            for (int j = 0; j < n; j++) {
+                V[0][j] = r[j] / norm_r;
+            }
+            s = vectorScalarProduct(e1, norm_r);
+            for (int i = 0; i < m; i++) {                        // construct orthonormal
+                residuum(w, A, b, V[i], 0);     // basis using Gram-Schmidt
+                for (int k = 0; k <= i; k++) {
+                    H[k][i] = scalar(w, V[k]);
+                    for (int j = 0; j < n; j++) {
+                        w[j] = w[j] - V[k][j] * H[k][i];
+                    }
+                }
+                H[i + 1][i] = L2Norm(w);
+                for (int j = 0; j < n; j++) {
+                    V[i + 1][j] = w[j] / H[i + 1][i];
+                }
+                for (int k = 0; k <= i - 1; k++) {                              // apply Givens rotation
+                    temp = cs[k] * H[k][i] + sn[k] * H[k + 1][i];
+                    H[k + 1][i] = -sn[k] * H[k][i] + cs[k] * H[k + 1][i];
+                    H[k][i] = temp;
+                }
+                double[] rot = rotmat(H[i][i], H[i + 1][i]); // form i-th rotation matrix
+                cs[i] = rot[0];
+                sn[i] = rot[1];
+                temp = cs[i] * s[i];                            // approximate residual norm
+                s[i + 1] = -sn[i] * s[i];
+                s[i] = temp;
+                H[i][i] = cs[i] * H[i][i] + sn[i] * H[i + 1][i];
+                H[i + 1][i] = 0;
+                error = Math.abs(s[i + 1]) / bnorm;
+                if (error <= tol) {                        // update approximation
+                    y = lsolve(H, s, i + 1);                 // and exit
+                    updateSolution(V, y, x, i);
+                    break;
+                }
+            }
+            if (error <= tol) {
+                break;
+            }
+
+            y = lsolve(H, s, m);
+            updateSolution(V, y, x, m - 1);
+            residuum(r, A, b, x, 1);                      // compute residual
+            s[m] = L2Norm(r);
+            error = s[m] / bnorm;                     // check convergence
+            if (error <= tol) {
+                return x;
+            }
+        }
+        return x;
+    }
+
+    static void residuum(double[] r, double[][] A, double[] b, double[] x, int par) {
+        int n = r.length;
+        if (par == 1) {
+            for (int i = 0; i < n; i++) {
+                r[i] = b[i];
+                for (int j = 0; j < n; j++) {
+                    r[i] -= A[i][j] * x[j];
+                }
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                r[i] = 0;
+                for (int j = 0; j < n; j++) {
+                    r[i] += A[i][j] * x[j];
+                }
+            }
+        }
+    }
+
+    // presunout do tridy MAT !!!!!!!
+    static void updateSolution(double[][] V, double[] y, double[] x, int i) {
+        for (int j = 0; j < x.length; j++) {
+            for (int k = 0; k <= i; k++) {
+                x[j] = x[j] + V[k][j] * y[k];
+            }
+        }
+    }
+
+    static double[] rotmat(double a, double b) {
+        // Compute the Givens rotation matrix parameters for a and b.
+        double c, s, temp;
+        if (b == 0) {
+            c = 1;
+            s = 0;
+        } else if (Math.abs(b) > Math.abs(a)) {
+            temp = a / b;
+            s = 1 / Math.sqrt(1 + temp * temp);
+            c = temp * s;
+        } else {
+            temp = b / a;
+            c = 1 / Math.sqrt(1 + temp * temp);
+            s = temp * c;
+        }
+        return new double[]{c, s};
+    }
+
+    static double[] vectorScalarProduct(double[] a, double b) {
+        int n = a.length;
+        double[] c = new double[n];
+        for (int i = 0; i < a.length; i++) {
+            c[i] = a[i] * b;
+        }
+        return c;
+    }
+
+    // Gaussian elimination with partial pivoting
+    static double[] lsolve(double[][] A, double[] b, int N) {
+        // int N  = b.length;
+        for (int p = 0; p < N; p++) {
+            // find pivot row and swap
+            int max = p;
+            for (int i = p + 1; i < N; i++) {
+                if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+                    max = i;
+                }
+            }
+            double[] temp = A[p];
+            A[p] = A[max];
+            A[max] = temp;
+            double t = b[p];
+            b[p] = b[max];
+            b[max] = t;
+
+            // pivot within A and b
+            for (int i = p + 1; i < N; i++) {
+                double alpha = A[i][p] / A[p][p];
+                b[i] -= alpha * b[p];
+                for (int j = p; j < N; j++) {
+                    A[i][j] -= alpha * A[p][j];
+                }
+            }
+        }
+
+        // back substitution
+        double[] x = new double[N];
+        for (int i = N - 1; i >= 0; i--) {
+            double sum = 0.0;
+            for (int j = i + 1; j < N; j++) {
+                sum += A[i][j] * x[j];
+            }
+            x[i] = (b[i] - sum) / A[i][i];
         }
         return x;
     }
