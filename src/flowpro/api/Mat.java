@@ -1233,7 +1233,7 @@ public class Mat {
     }
 
     // Gaussian elimination with partial pivoting
-    static double[] lsolve(double[][] A, double[] b, int N) {
+    public static double[] lsolve(double[][] A, double[] b, int N) {
         // int N  = b.length;
         for (int p = 0; p < N; p++) {
             // find pivot row and swap
