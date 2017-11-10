@@ -4,9 +4,48 @@ import java.io.*;
 
 public interface Equation extends Serializable {
     
+    /**
+     * Here all the necessary parameters for the model are loaded. It is called right after
+     * an instance is created. This method is always called, thus must be implemented properly.
+     * @param props contains parameters loaded from the text file parameters.txt
+     * @throws IOException 
+     */
     public void init(FlowProProperties props) throws IOException;
+    
+    /**
+     * Defines the number of equations in the model. Vectors such as W, WR, WL or Ws will be
+     * allocated such that their length equals to the number of equations. This method is always
+     * called, thus must be implemented properly.
+     * @return number of equations 
+     */
     public int nEqs();
+    
+    /**
+     * Defines the spatial dimension. This method is always called, thus must be implemented
+     * properly.
+     * @return dimension
+     */
     public int dim();
+    
+    /**
+     * Prescribes the boundary condition based on the boundary type. Method is always called, thus
+     * must be implemented properly.
+     * @param WL left value of the approximate solution at the boundary
+     * @param boundaryVelocity velocity of the boundary is non-zero only for the ALE formulation
+     * @param n unit outward normal
+     * @param boundaryType a negative integer which may correspond to wall, inlet, outlet etc.
+     * @param elemData contains some parameters of the adjoined mesh element which may or may not
+     * be useful
+     * @return value at the boundary
+     */
+    public double[] boundaryValue(double[] WL, double[] boundaryVelocity, double[] n,
+            int boundaryType, ElementData elemData);
+    
+    /**
+     * Defines initial condition which is constant at the whole domain. This method is called
+     * only if initial condition are not provided in the text file initW.txt.
+     * @return initial value of the solution
+     */
     public double[] constInitCondition();
     
     // convection term
@@ -25,9 +64,7 @@ public interface Equation extends Serializable {
     
     public double maxEigenvalue(double[] W);
     
-    public boolean isIPFace(int TT); // for penalty application
-
-    public double[] boundaryValue(double[] WL, double[] u, double[] n, int TT, ElementData elemData);
+    public boolean isIPFace(int TT); // for penalty application    
 
     public double pressure(double[] W);
 
