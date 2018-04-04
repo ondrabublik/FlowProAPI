@@ -156,6 +156,12 @@ public class Mat {
         }
         return out;
     }
+    
+    public static void plusVecToVec(double[] u, double[] v) {
+        for (int i = 0; i < u.length; i++) {
+            u[i] += v[i];
+        }
+    }
 
     public static double[] plusVec(double[] u, double[] v, double[] w) {
         double[] out = new double[u.length];
@@ -338,6 +344,13 @@ public class Mat {
             C[i] = v[i] * c;
         }
         return C;
+    }
+    
+    public static void times(double c, double[] v) {
+        int n = v.length;
+        for (int i = 0; i < n; i++) {
+            v[i] *= c;
+        }
     }
 
     public static void divide(double[][] A, double b) {
