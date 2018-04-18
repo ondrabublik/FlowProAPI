@@ -62,7 +62,7 @@ public interface Equation extends Serializable {
     public boolean isSourcePresent();
     public double[] sourceTerm(double[] W, double[] dW, ElementData elemData);
     
-    public double maxEigenvalue(double[] W);
+    public double maxEigenvalue(double[] W, ElementData elemData);
     
     public boolean isIPFace(int TT); // for penalty application    
 
