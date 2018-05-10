@@ -31,14 +31,13 @@ public interface Equation extends Serializable {
      * Prescribes the boundary condition based on the boundary type. Method is always called, thus
      * must be implemented properly.
      * @param WL left value of the approximate solution at the boundary
-     * @param boundaryVelocity velocity of the boundary is non-zero only for the ALE formulation
      * @param n unit outward normal
      * @param boundaryType a negative integer which may correspond to wall, inlet, outlet etc.
      * @param elemData contains some parameters of the adjoined mesh element which may or may not
      * be useful
      * @return value at the boundary
      */
-    public double[] boundaryValue(double[] WL, double[] boundaryVelocity, double[] n,
+    public double[] boundaryValue(double[] WL, double[] n,
             int boundaryType, ElementData elemData);
     
     /**
@@ -48,19 +47,25 @@ public interface Equation extends Serializable {
      */
     public double[] constInitCondition();
     
+    public boolean isEquationsJacobian();
+    
     // convection term
     public boolean isConvective();
-    public double[] convectiveFlux(double[] W, double Vs, double[] n, ElementData elemData);
-    public double[] numericalConvectiveFlux(double[] WL, double[] WR, double Vs, double[] n, int TT, ElementData elemData);
+    public double[] convectiveFlux(double[] W, double[] n, ElementData elemData);
+    public double[] numericalConvectiveFlux(double[] WL, double[] WR, double[] n, int TT, ElementData elemData);
+    public double[] convectiveFluxJacobian(double[] W, double[] n, ElementData elemData);
+    public double[] boundaryConvectiveFluxJacobian(double[] WL, double[] WR, double[] n, int boundaryType, ElementData elemData);
 
     // diffusion term (viscosity)
     public boolean isDiffusive();
     public double[] diffusiveFlux(double[] W, double[] dW, double n[], ElementData elemData);
     public double[] numericalDiffusiveFlux(double[] WL, double[] WR, double[] dWL, double[] dWR, double[] n, int TT, ElementData elemData);
+    public double[] diffusiveFluxJacobian(double[] W, double[] dW, double n[], ElementData elemData);
 
     // source term
     public boolean isSourcePresent();
     public double[] sourceTerm(double[] W, double[] dW, ElementData elemData);
+    public double[] sourceTermJacobian(double[] W, double[] dW, ElementData elemData);
     
     public double maxEigenvalue(double[] W, ElementData elemData);
     
