@@ -21,4 +21,6 @@ public interface SolutionMonitor extends Serializable {
     public double[] insideValue(double[] W, double[] dW, ElementData elemData);
 
     public double[] boundaryValue(double[] W, double[] dW, double[] n, int TT, ElementData elemData);
+    
+    public void combineMonitoredValues(double[] solutionMonitorValues);
 }

@@ -54,7 +54,6 @@ public interface Equation extends Serializable {
     public double[] convectiveFlux(double[] W, double[] n, ElementData elemData);
     public double[] numericalConvectiveFlux(double[] WL, double[] WR, double[] n, int TT, ElementData elemData);
     public double[] convectiveFluxJacobian(double[] W, double[] n, ElementData elemData);
-    public double[] boundaryConvectiveFluxJacobian(double[] WL, double[] WR, double[] n, int boundaryType, ElementData elemData);
 
     // diffusion term (viscosity)
     public boolean isDiffusive();
