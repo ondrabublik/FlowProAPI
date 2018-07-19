@@ -58,7 +58,7 @@ public interface Equation extends Serializable {
     // diffusion term (viscosity)
     public boolean isDiffusive();
     public double[] diffusiveFlux(double[] W, double[] dW, double n[], ElementData elemData);
-    public double[] numericalDiffusiveFlux(double[] WL, double[] WR, double[] dWL, double[] dWR, double[] n, int TT, ElementData elemData);
+    public double[] numericalDiffusiveFlux(double[] W, double[] dW, double[] n, int TT, ElementData elemData); // direct discontinuous Galerkin
     public double[] diffusiveFluxJacobian(double[] W, double[] dW, double n[], ElementData elemData);
 
     // source term
