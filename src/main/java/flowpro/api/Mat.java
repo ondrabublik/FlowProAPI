@@ -78,6 +78,14 @@ public class Mat {
         return Math.sqrt(norm);
     }
 
+    public static int max(int a, int b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
     public static int max(int[][] A) {
         int max = 0;
         for (int i = 0; i < A.length; i++) {
@@ -156,7 +164,7 @@ public class Mat {
         }
         return out;
     }
-    
+
     public static void plusVecToVec(double[] u, double[] v) {
         for (int i = 0; i < u.length; i++) {
             u[i] += v[i];
@@ -345,7 +353,7 @@ public class Mat {
         }
         return C;
     }
-    
+
     public static void times(double c, double[] v) {
         int n = v.length;
         for (int i = 0; i < n; i++) {
