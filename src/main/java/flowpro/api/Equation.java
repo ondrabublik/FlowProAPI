@@ -47,6 +47,8 @@ public interface Equation extends Serializable {
      */
     public double[] constInitCondition();
     
+    public void setState(double t, double dt); // called ones at the begining of the iteration 
+    
     public boolean isEquationsJacobian();
     
     // convection term

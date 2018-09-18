@@ -14,6 +14,7 @@ public class ElementData implements Serializable {
     public double currentT;
     public double[] integralMonitor;
     public double[] externalField;
+    public int elemIndex;
     
     public ElementData(int dim) {
         currentX = new double[dim];
