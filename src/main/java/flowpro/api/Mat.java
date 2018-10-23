@@ -326,6 +326,26 @@ public class Mat {
         return c;
     }
 
+    
+    /**
+     * transpose matrix-vector multiplication
+     *
+     * @param A m x n matrix
+     * @param b vector of length n
+     * @return vector x = A * b of length m
+     */
+    public static double[] timesTranspose(double[][] A, double[] b) {
+        int ma = A.length;
+        int na = A[0].length;
+        double[] c = new double[ma];
+        for (int i = 0; i < ma; i++) {
+            for (int j = 0; j < na; j++) {
+                c[i] = c[i] + A[j][i] * b[j];
+            }
+        }
+        return c;
+    }
+    
     /**
      * Multiplies all entries of the matrix A by the constant c.
      *
@@ -589,8 +609,7 @@ public class Mat {
         for (int i = 0; i < n - 1; ++i) {
             for (int j = i + 1; j < n; ++j) {
                 for (int k = 0; k < n; ++k) {
-                    b[index[j]][k]
-                            -= invA[index[j]][i] * b[index[i]][k];
+                    b[index[j]][k] -= invA[index[j]][i] * b[index[i]][k];
                 }
             }
         }
@@ -1257,19 +1276,19 @@ public class Mat {
     public static double[] lsolve(double[][] A, double[] b, int N) {
         // int N  = b.length;
         for (int p = 0; p < N; p++) {
-            // find pivot row and swap
-            int max = p;
-            for (int i = p + 1; i < N; i++) {
-                if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
-                    max = i;
-                }
-            }
-            double[] temp = A[p];
-            A[p] = A[max];
-            A[max] = temp;
-            double t = b[p];
-            b[p] = b[max];
-            b[max] = t;
+//            // find pivot row and swap
+//            int max = p;
+//            for (int i = p + 1; i < N; i++) {
+//                if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+//                    max = i;
+//                }
+//            }
+//            double[] temp = A[p];
+//            A[p] = A[max];
+//            A[max] = temp;
+//            double t = b[p];
+//            b[p] = b[max];
+//            b[max] = t;
 
             // pivot within A and b
             for (int i = p + 1; i < N; i++) {
@@ -1287,6 +1306,31 @@ public class Mat {
             double sum = 0.0;
             for (int j = i + 1; j < N; j++) {
                 sum += A[i][j] * x[j];
+            }
+            x[i] = (b[i] - sum) / A[i][i];
+        }
+        return x;
+    }
+    
+    // Gaussian elimination with partial pivoting for transpose A
+    public static double[] lsolveT(double[][] A, double[] b) {
+        int n = b.length;
+        for (int p = 0; p < n; p++) {
+            for (int i = p + 1; i < n; i++) {
+                double alpha = A[p][i] / A[p][p];
+                b[i] -= alpha * b[p];
+                for (int j = p; j < n; j++) {
+                    A[j][i] -= alpha * A[j][p];
+                }
+            }
+        }
+
+        // back substitution
+        double[] x = new double[n];
+        for (int i = n - 1; i >= 0; i--) {
+            double sum = 0.0;
+            for (int j = i + 1; j < n; j++) {
+                sum += A[j][i] * x[j];
             }
             x[i] = (b[i] - sum) / A[i][i];
         }
