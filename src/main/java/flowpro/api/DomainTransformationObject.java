@@ -16,4 +16,6 @@ public interface DomainTransformationObject extends Serializable {
     void init(FlowProProperties props);
     
     double[] transform(double[] X);
+    
+    Complex[] transformComplex(Complex[] X);
 }

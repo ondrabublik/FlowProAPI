@@ -74,8 +74,6 @@ public interface Equation extends Serializable {
 
     public double pressure(double[] W);
 
-    public void limitUnphysicalValues(double[] Ws, double[] W, int nBasis);
-
     public void saveReferenceValues(String filePath) throws IOException;
     
     public double[] getReferenceValues();
