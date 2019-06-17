@@ -118,6 +118,16 @@ public class Mat {
         return max;
     }
 
+    public static double max(double a, double b, double c) {
+        if(b > a){
+            a = b;
+        }
+        if(c > a){
+            a = c;
+        }  
+        return a;
+    }
+    
     public static double min(double[] v) {
         double min = Double.MAX_VALUE;
         for (double val : v) {

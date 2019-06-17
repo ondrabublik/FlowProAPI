@@ -74,11 +74,11 @@ public interface Equation extends Serializable {
 
     public double pressure(double[] W);
 
-    public void limitUnphysicalValues(double[] Ws, double[] W, int nBasis);
-
     public void saveReferenceValues(String filePath) throws IOException;
     
     public double[] getReferenceValues();
     
     public double[] getResults(double[] W, double[] dW, double[] X, String name);
+    
+    public double[] combineShockSensors(double[] shock);
 }
