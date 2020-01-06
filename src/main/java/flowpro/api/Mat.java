@@ -973,27 +973,26 @@ public class Mat {
         int rows = rowLengths.length; // number of rows of the matrix (lines in the input file)
 
         double[][] matrix = new double[rows][];
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-
         // copy data from file to a two-dimensional array
-        for (int i = 0; i < rows; ++i) {
-            String line;
-            if ((line = reader.readLine()) == null) {
-                throw new IOException("file " + fileName
-                        + " has got less lines than expected");
-            }
-            String[] strArray = line.split(" ");
-            if (strArray.length < rowLengths[i]) {
-                throw new IOException("file " + fileName + " at line "
-                        + Integer.toString(i) + " has less integers than expected");
-            }
-            matrix[i] = new double[rowLengths[i]];
-
-            for (int j = 0; j < matrix[i].length; ++j) {
-                matrix[i][j] = Double.parseDouble(strArray[j]);
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            for (int i = 0; i < rows; ++i) {
+                String line;
+                if ((line = reader.readLine()) == null) {
+                    throw new IOException("file " + fileName
+                            + " has got less lines than expected");
+                }
+                String[] strArray = line.split(" ");
+                if (strArray.length < rowLengths[i]) {
+                    throw new IOException("file " + fileName + " at line "
+                            + Integer.toString(i) + " has less integers than expected");
+                }
+                matrix[i] = new double[rowLengths[i]];
+                
+                for (int j = 0; j < matrix[i].length; ++j) {
+                    matrix[i][j] = Double.parseDouble(strArray[j]);
+                }
             }
         }
-        reader.close();
 
         return matrix;
     }
@@ -1006,7 +1005,6 @@ public class Mat {
                 }
                 writer.newLine();
             }
-            writer.close();
         }
     }
 
@@ -1018,7 +1016,6 @@ public class Mat {
                 }
                 writer.newLine();
             }
-            writer.close();
         }
     }
 
@@ -1028,7 +1025,6 @@ public class Mat {
                 writer.write(Double.toString(entry));
                 writer.newLine();
             }
-            writer.close();
         }
     }
 
@@ -1038,7 +1034,6 @@ public class Mat {
                 writer.write(Integer.toString(entry));
                 writer.newLine();
             }
-            writer.close();
         }
     }
 
