@@ -47,31 +47,65 @@ public interface Equation extends Serializable {
      */
     public double[] constInitCondition();
     
+    /**
+     * Called ones at the beginning of the computation.
+     * @param t
+     * @param dt
+     */
     public void setState(double t, double dt); // called ones at the begining of the iteration 
     
+    /**
+     * Return true if the Jacobi matrix of the equations is presented.
+     * @return boolean
+     */
     public boolean isEquationsJacobian();
     
     // convection term
+    /**
+     * True if the convective flux is presented
+     * @return boolean
+     */
     public boolean isConvective();
     public double[] convectiveFlux(double[] W, double[] n, ElementData elemData);
     public double[] numericalConvectiveFlux(double[] WL, double[] WR, double[] n, int TT, ElementData elemData);
     public double[] convectiveFluxJacobian(double[] W, double[] n, ElementData elemData);
 
     // diffusion term (viscosity)
+    // convection term
+    /**
+     * True if the diffusive flux is presented
+     * @return boolean
+     */
     public boolean isDiffusive();
     public double[] diffusiveFlux(double[] W, double[] dW, double n[], ElementData elemData);
     public double[] numericalDiffusiveFlux(double[] W, double[] dW, double[] n, int TT, ElementData elemData); // direct discontinuous Galerkin
     public double[] diffusiveFluxJacobian(double[] W, double[] dW, double n[], ElementData elemData);
 
     // source term
+    // convection term
+    /**
+     * True if the source term is presented
+     * @return boolean
+     */
     public boolean isSourcePresent();
     public double[] sourceTerm(double[] W, double[] dW, ElementData elemData);
     public double[] sourceTermJacobian(double[] W, double[] dW, ElementData elemData);
     
+    /**
+     * Function compute max eigenvalue.
+     * @param W
+     * @param elemData
+     * @return max eigenvalue of the system of equations
+     */
     public double maxEigenvalue(double[] W, ElementData elemData);
     
     public boolean isIPFace(int TT); // for penalty application    
 
+    /**
+     * Function for the pressure computation.
+     * @param W
+     * @return pressure
+     */
     public double pressure(double[] W);
 
     public void saveReferenceValues(String filePath) throws IOException;

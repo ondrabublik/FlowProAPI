@@ -17,14 +17,25 @@ public class FluidForces implements Serializable {
         this.userDef = userDef;
     }
     
+    /**
+     * Compute translation force acting the bodies.
+     * @return 
+     */
     public double[][] getTranslationForce() {
         return totalTranslationForce;
     }
 
+    /**
+     * Compute rotation moments acting the bodies.
+     * @return 
+     */
     public double[][] getRotationForce() {
         return totalRotationForce;
     }
 
+    /**
+     * @return forces acting the boundaries
+     */
     public double[][] getBoundaryForce() {
         return boundaryForce;
     }
