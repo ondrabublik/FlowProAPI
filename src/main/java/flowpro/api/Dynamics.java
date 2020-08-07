@@ -21,14 +21,16 @@ public interface Dynamics extends Serializable {
      * @param dt time step
      * @param t time
      * @param newtonIter
-     * @param fluFor object containing forces actink the body
+     * @param fluFor object containing forces acting on the body
+	 * @throws java.io.IOException
      */
-    public void computeBodyMove(double dt, double t, int newtonIter, FluidForces fluFor);
+    public void computeBodyMove(double dt, double t, int newtonIter, FluidForces fluFor) throws IOException;
     
     /**
      * Move body to next position.
+	 * @throws java.io.IOException
      */
-    public void nextTimeLevel();
+    public void nextTimeLevel() throws IOException;
     
     /**
      * Compute mesh deformation.
