@@ -76,6 +76,16 @@ public class FlowProProperties extends Properties {
         }
     }
     
+    public boolean[] getBooleanArray(String propName) throws IOException {
+        try {
+            return string2booleanArray(loseComments(super.getProperty(propName)));
+        } catch (NullPointerException ex) {
+            throw new IOException("variable " + propName + " not found", ex);
+        } catch (NumberFormatException ex) {
+            throw new IOException("variable " + propName + " does not contain a double", ex);
+        }
+    }
+    
     public String[] getStringArray(String propName) throws IOException {
         try {
             String str = (loseComments(super.getProperty(propName)));
@@ -93,6 +103,16 @@ public class FlowProProperties extends Properties {
         for (int i = 0; i < stringArray.length; i++) {
             String numberAsString = stringArray[i];
             d[i] = Double.parseDouble(numberAsString);
+        }
+        return d;
+    }
+    
+    private boolean[] string2booleanArray(String str) {
+        String[] stringArray = str.split(",");
+        boolean[] d = new boolean[stringArray.length];
+        for (int i = 0; i < stringArray.length; i++) {
+            String booleanAsString = stringArray[i];
+            d[i] = Boolean.parseBoolean(booleanAsString);
         }
         return d;
     }
