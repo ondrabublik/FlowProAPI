@@ -99,14 +99,11 @@ public interface Equation extends Serializable {
      */
     public double maxEigenvalue(double[] W, ElementData elemData);
     
-    public boolean isIPFace(int TT); // for penalty application    
+    public boolean isIPFace(int TT); // for penalty application  
+	
+	abstract public double pressure(double[] W); // to be replaced by normalStress
 
-    /**
-     * Function for the pressure computation.
-     * @param W
-     * @return pressure
-     */
-    public double pressure(double[] W);
+	public double[] normalStress(double[] W, double[] dW, double[] normal);
 
     public void saveReferenceValues(String filePath) throws IOException;
     
