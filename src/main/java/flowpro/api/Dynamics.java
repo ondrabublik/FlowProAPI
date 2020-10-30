@@ -40,5 +40,5 @@ public interface Dynamics extends Serializable {
     
     public double[][] getCenter();
     
-    public void savePositionsAndForces();
+    public void savePositionsAndForces() throws IOException;
 }
