@@ -1,5 +1,6 @@
 package flowpro.api;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -8,12 +9,24 @@ import java.util.Properties;
  * @author ales
  */
 public class FlowProProperties extends Properties {
+	
+	private String msg = "";
+	
+	public void load(String propertiesFilePath) throws IOException {
+		msg = "file " + propertiesFilePath + " has a wrong format: ";
+		
+//		try {
+			super.load(new FileInputStream(propertiesFilePath));
+//		} catch (IOException ex) {
+//            throw new IOException("unable to load file " + propertiesFilePath, ex);
+//        }
+	}
 
     public String getString(String propName) throws IOException {
         try {
             return loseComments(super.getProperty(propName));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         }
     }
 
@@ -21,9 +34,9 @@ public class FlowProProperties extends Properties {
         try {
             return Integer.parseInt(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain an integer", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain an integer", ex);
         }
     }
 
@@ -31,9 +44,9 @@ public class FlowProProperties extends Properties {
         try {
             return Long.parseLong(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain an integer", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain an integer", ex);
         }
     }
 
@@ -41,9 +54,9 @@ public class FlowProProperties extends Properties {
         try {
             return Double.parseDouble(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain a double", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain a double", ex);
         }
     }
 
@@ -51,28 +64,19 @@ public class FlowProProperties extends Properties {
         try {
             return Boolean.parseBoolean(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain a boolean", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain a boolean", ex);
         }
-    }
-
-    private String loseComments(String str) {
-        str = str.split("%", 2)[0];
-        str = str.split("#", 2)[0];
-        str = str.trim();
-        //str = str.split(";", 2)[0];
-
-        return str;
-    }
+    }    
 
     public double[] getDoubleArray(String propName) throws IOException {
         try {
             return string2doubleArray(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain a double", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain a double", ex);
         }
     }
     
@@ -80,9 +84,9 @@ public class FlowProProperties extends Properties {
         try {
             return string2booleanArray(loseComments(super.getProperty(propName)));
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain a double", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain a double", ex);
         }
     }
     
@@ -91,10 +95,19 @@ public class FlowProProperties extends Properties {
             String str = (loseComments(super.getProperty(propName)));
             return str.split(",");
         } catch (NullPointerException ex) {
-            throw new IOException("variable " + propName + " not found", ex);
+            throw new IOException(msg + "variable " + propName + " not found", ex);
         } catch (NumberFormatException ex) {
-            throw new IOException("variable " + propName + " does not contain a double", ex);
+            throw new IOException(msg + "variable " + propName + " does not contain a double", ex);
         }
+    }
+	
+	private String loseComments(String str) {
+        str = str.split("%", 2)[0];
+        str = str.split("#", 2)[0];
+        str = str.trim();
+        //str = str.split(";", 2)[0];
+
+        return str;
     }
 
     private double[] string2doubleArray(String str) {
