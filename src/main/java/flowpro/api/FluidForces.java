@@ -15,14 +15,17 @@ public class FluidForces implements Serializable {
 	/** Stress vectors in various points along the boundary of the structure. */
 	public double[][] stressVectors;
 	
+	/** Rows contain  a stress tensor along the boundary of the structure. */
+	public double[][] stressTensors;
+	
 	/** Coordinates of the position where the stress vectors act. */
 	public double[][] stressVectorPositions;
 	
 	public FluidForces() {}
 
-	public FluidForces(double[] totalTranslationForce, double[] totalRotationForce) {
-		this.force = totalTranslationForce;
-		this.torque = totalRotationForce;
+	public FluidForces(double[] force, double[] torque) {
+		this.force = force;
+		this.torque = torque;
 		this.isElastic = false;
 	}
 	
