@@ -7,13 +7,23 @@ public class MeshMove implements Serializable {
     double[] translation;
     double[] rotation;
     double[][] deformationCoeffs;
-    double[][] boundaryPointsCoords;
+    double[][] boundaryPoints;
+	double[][] boundaryDisplacement;
     
-    public MeshMove(double[] translation, double[] rotation, double[][] deformationCoeffs, double[][] boundaryPointsCoords){
+    public MeshMove(double[] translation, double[] rotation, double[][] deformationCoeffs, double[][] boundaryPoints){
         this.translation = translation;
         this.rotation = rotation;
         this.deformationCoeffs = deformationCoeffs;
-        this.boundaryPointsCoords = boundaryPointsCoords;
+        this.boundaryPoints = boundaryPoints;
+    }
+	
+	public MeshMove(double[] translation, double[] rotation, double[][] deformationCoeffs, double[][] boundaryPoints,
+			double[][] boundaryDisplacement){
+        this.translation = translation;
+        this.rotation = rotation;
+        this.deformationCoeffs = deformationCoeffs;
+        this.boundaryPoints = boundaryPoints;
+		this.boundaryDisplacement = boundaryDisplacement;
     }
     
     public double[] getTranslation() {
@@ -28,7 +38,11 @@ public class MeshMove implements Serializable {
         return deformationCoeffs;
     }
 
-    public double[][] getboundaryPointsCoords() {
-        return boundaryPointsCoords;
+    public double[][] getBoundaryPoints() {
+        return boundaryPoints;
     }
+	
+	public double[][] getBoundaryDisplacement() {
+		return boundaryDisplacement;
+	}
 }
