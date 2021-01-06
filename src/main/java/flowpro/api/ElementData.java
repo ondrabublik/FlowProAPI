@@ -16,6 +16,8 @@ public class ElementData implements Serializable {
     public double[] externalField;
     public int elemIndex;
     public double[] Wavg;
+    public double elemSize;
+    
     
     public ElementData(int dim) {
         currentX = new double[dim];
