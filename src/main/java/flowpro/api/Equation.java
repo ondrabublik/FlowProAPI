@@ -103,7 +103,7 @@ public interface Equation extends Serializable {
 	
 	abstract public double pressure(double[] W); // to be replaced by normalStress
 
-	public double[] normalStress(double[] W, double[] dW, double[] normal);
+	public double[] stressVector(double[] W, double[] dW, double[] normal);
 
     public void saveReferenceValues(String filePath) throws IOException;
     
