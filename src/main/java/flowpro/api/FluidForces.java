@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 public class FluidForces implements Serializable {
 	
-	public boolean isElastic;
+	public enum BodyType {
+		RIGID, ELASTIC, STATIC
+	}
+	
+	public BodyType bodyType;
 
 	/** Total force F = [Fx, Fy, Fz] in 3D and F = [Fx, Fy] in 2D acting on the body. */
 	public double[] force;
@@ -26,12 +30,12 @@ public class FluidForces implements Serializable {
 	public FluidForces(double[] force, double[] torque) {
 		this.force = force;
 		this.torque = torque;
-		this.isElastic = false;
+		this.bodyType = BodyType.RIGID;
 	}
 	
 	public FluidForces(double[][] stressVectors, double[][] stressVectorPositions) {
 		this.stressVectors = stressVectors;
 		this.stressVectorPositions = stressVectorPositions;
-		this.isElastic = true;
+		this.bodyType = BodyType.ELASTIC;
 	}
 }
