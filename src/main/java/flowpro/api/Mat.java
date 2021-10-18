@@ -2,6 +2,7 @@ package flowpro.api;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -893,6 +894,7 @@ public class Mat {
     }
 
     public static double[] loadDoubleArray(String fileName) throws IOException {
+		try {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
 
         // find out the number of integers in the file
@@ -919,6 +921,13 @@ public class Mat {
         reader.close();
 
         return array;
+		
+		} catch (FileNotFoundException ex) {
+			throw ex;
+		} catch (IOException ex) {
+			throw new IOException("error while loading array of doubles from file " + fileName + ": "
+					+ ex.getMessage(), ex);
+		}
     }
 
     /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package flowpro.api;
 
 import java.io.IOException;
@@ -24,7 +19,7 @@ public interface Dynamics extends Serializable {
      * @param fluFor object containing forces acting on the body
 	 * @throws java.io.IOException
      */
-    public void computeBodyMove(double dt, double t, int newtonIter, FluidForces fluFor) throws IOException;
+    public void computeBodyMove(double dt, double t, int newtonIter, FluidForces[] fluFor) throws IOException;
     
     /**
      * Move body to next position.
@@ -40,5 +35,5 @@ public interface Dynamics extends Serializable {
     
     public double[][] getCenter();
     
-    public void savePositionsAndForces();
+    public void savePositionsAndForces() throws IOException;
 }

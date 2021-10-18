@@ -3,48 +3,39 @@ package flowpro.api;
 import java.io.Serializable;
 
 public class FluidForces implements Serializable {
-    public double[][] totalTranslationForce;
-    public double[][] totalRotationForce;
-    public double[][] boundaryForce; // nBoundFaces x dim
-    public int[][] faceIndexes; // element index, face index, body number
-    public double[][] userDef;
-    
-    public FluidForces(double[][] totalTranslationForce, double[][] totalRotationForce, double[][] boundaryForce, int[][] faceIndexes, double[][] userDef){
-        this.totalTranslationForce = totalTranslationForce;
-        this.totalRotationForce = totalRotationForce;
-        this.boundaryForce = boundaryForce;
-        this.faceIndexes = faceIndexes;
-        this.userDef = userDef;
-    }
-    
-    /**
-     * Compute translation force acting the bodies.
-     * @return 
-     */
-    public double[][] getTranslationForce() {
-        return totalTranslationForce;
-    }
+	
+	public enum BodyType {
+		RIGID, ELASTIC, STATIC
+	}
+	
+	public BodyType bodyType;
 
-    /**
-     * Compute rotation moments acting the bodies.
-     * @return 
-     */
-    public double[][] getRotationForce() {
-        return totalRotationForce;
-    }
+	/** Total force F = [Fx, Fy, Fz] in 3D and F = [Fx, Fy] in 2D acting on the body. */
+	public double[] force;
+	
+	/** Total torque T = [Tx, Ty, Tz] in 3D and T = [Tz] in 2D acting on the body. */
+	public double[] torque;
+	
+	/** Stress vectors in various points along the boundary of the structure. */
+	public double[][] stressVectors;
+	
+	/** Rows contain  a stress tensor along the boundary of the structure. */
+	public double[][] stressTensors;
+	
+	/** Coordinates of the position where the stress vectors act. */
+	public double[][] stressVectorPositions;
+	
+	public FluidForces() {}
 
-    /**
-     * @return forces acting the boundaries
-     */
-    public double[][] getBoundaryForce() {
-        return boundaryForce;
-    }
-
-    public int[][] getFaceIndexes() {
-        return faceIndexes;
-    }
-    
-    public double[][] getUserDef() {
-        return userDef;
-    }
+	public FluidForces(double[] force, double[] torque) {
+		this.force = force;
+		this.torque = torque;
+		this.bodyType = BodyType.RIGID;
+	}
+	
+	public FluidForces(double[][] stressVectors, double[][] stressVectorPositions) {
+		this.stressVectors = stressVectors;
+		this.stressVectorPositions = stressVectorPositions;
+		this.bodyType = BodyType.ELASTIC;
+	}
 }
