@@ -5,6 +5,7 @@
  */
 package flowpro.api;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 public interface DomainTransformationObject extends Serializable {
     
-    void init(FlowProProperties props);
+    void init(FlowProProperties props) throws IOException ;
     
     double[] transform(double[] X);
     
